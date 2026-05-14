@@ -5,6 +5,10 @@
     version:1.0 
  */
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> buoi1
 using System;
 
 using System.Collections.Generic;
