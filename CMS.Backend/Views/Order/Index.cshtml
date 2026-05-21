@@ -1,0 +1,55 @@
+﻿@model List<CMS.Data.Entities.Order>
+
+<h2>DANH SÁCH ĐƠN HÀNG</h2>
+
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Khách hàng</th>
+            <th>Ngày đặt</th>
+            <th>Trạng thái</th>
+            <th>Ghi chú</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.Id</td>
+
+                <td>
+                    @item.Customer?.FullName
+                </td>
+
+                <td>
+                    @item.OrderDate.ToString("dd/MM/yyyy")
+                </td>
+
+                <td>
+                    @if (item.Status == 0)
+                    {
+                        <span class="badge bg-warning">
+                            Chờ duyệt
+                        </span>
+                    }
+                    else if (item.Status == 1)
+                    {
+                        <span class="badge bg-primary">
+                            Đang giao
+                        </span>
+                    }
+                    else
+                    {
+                        <span class="badge bg-success">
+                            Hoàn thành
+                        </span>
+                    }
+                </td>
+
+                <td>@item.Notes</td>
+            </tr>
+        }
+    </tbody>
+</table>

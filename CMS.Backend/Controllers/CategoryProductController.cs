@@ -1,25 +1,23 @@
 ﻿using CMS.Data;
 using CMS.Data.Entities; // Kết nối tới lớp dữ liệu bạn vừa tạo
 using Microsoft.AspNetCore.Mvc;
-
+using Microsoft.EntityFrameworkCore;
 namespace CMS.Backend.Controllers
 {
-    public class CategoryController : Controller
+    public class CategoryProductController : Controller
     {
         private readonly ApplicationDbContext _context;
 
-        // "Tiêm" kết nối vào Controller
-        public CategoryController(ApplicationDbContext context)
+        public CategoryProductController(ApplicationDbContext context)
         {
             _context = context;
         }
 
         public IActionResult Index()
         {
-            // Lấy dữ liệu THẬT từ bảng Categories trong SQL
-            var data = _context.Categories.ToList();
+            var data = _context.CategoriesProducts.ToList();
+
             return View(data);
         }
     }
-
 }
