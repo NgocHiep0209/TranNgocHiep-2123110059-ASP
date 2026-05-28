@@ -1,5 +1,6 @@
 ﻿using CMS.Data;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace CMS.Backend.Controllers
 {
@@ -14,25 +15,45 @@ namespace CMS.Backend.Controllers
         }
 
         // Lấy dữ liệu từ Database
-        public IActionResult Index()
+        // Tham số 'id' được truyền vào từ URL (ví dụ: /Post/Index/5)
+        public IActionResult Index(int? id)
         {
-            var posts = _context.Posts.ToList();
+            var query = _context.Posts
+          .Include(p => p.Category)
+          .OrderByDescending(p => p.CreatedDate)
+          .AsQueryable();
+
+            // Nếu có id thì mới lọc
+            if (id.HasValue)
+            {
+                query = query.Where(p => p.CategoryId == id.Value);
+            }
+
+            var posts = query.ToList();
 
             return View(posts);
         }
 
+
         // Chi tiết bài viết
         public IActionResult Details(int id)
         {
-            var post = _context.Posts.FirstOrDefault(x => x.Id == id);
+            // 1. Truy vấn bài viết theo ID
+            // Sử dụng .Include(p => p.Category) để lấy kèm thông tin Danh mục (Join bảng)
+            var post = _context.Posts
+                .Include(p => p.Category)
+                .FirstOrDefault(p => p.Id == id);
 
+            // 2. Kiểm tra nếu không tìm thấy bài viết (tránh lỗi màn hình trắng)
             if (post == null)
             {
-                return NotFound();
+                return NotFound(); // Trả về trang lỗi 404
             }
 
+            // 3. Truyền dữ liệu sang View
             return View(post);
         }
+
     }
 }
 
