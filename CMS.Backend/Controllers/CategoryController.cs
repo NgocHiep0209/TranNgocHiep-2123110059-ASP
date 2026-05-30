@@ -1,4 +1,12 @@
-﻿using CMS.Data;
+﻿/*
+    Hoten: Trần Ngọc Hiệp
+    masv:2123110059
+    ngaytao:14/05/2026
+    version:1.0 
+ */
+
+
+using CMS.Data;
 using CMS.Data.Entities; // Kết nối tới lớp dữ liệu bạn vừa tạo
 using Microsoft.AspNetCore.Mvc;
 
